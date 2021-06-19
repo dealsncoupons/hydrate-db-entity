@@ -1,5 +1,3 @@
-# hydrate-db-entity
-<<<<<<< HEAD
+### hydrate-db-entity
+
 playing with different scenarios in persisting db entities
-=======
->>>>>>> 369c3a2... first commit

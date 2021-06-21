@@ -5,8 +5,10 @@ public class ColumnInfoBuilder {
     private String name;
     private String column;
     private Class<?> type;
+    private String joinTable;
     private boolean isPk = false;
     private boolean isFk = false;
+    private boolean isCompoundPk = false;
     private boolean isRelational = false;
     private boolean isCollection = false;
     private boolean isEmbedded = false;
@@ -33,6 +35,11 @@ public class ColumnInfoBuilder {
         return this;
     }
 
+    public ColumnInfoBuilder joinTable(String joinTable) {
+        this.joinTable = joinTable;
+        return this;
+    }
+
     public ColumnInfoBuilder isPk(boolean isPk) {
         this.isPk = isPk;
         return this;
@@ -40,6 +47,11 @@ public class ColumnInfoBuilder {
 
     public ColumnInfoBuilder isFk(boolean isFk) {
         this.isFk = isFk;
+        return this;
+    }
+
+    public ColumnInfoBuilder isCompoundPk(boolean isCompoundPk) {
+        this.isCompoundPk = isCompoundPk;
         return this;
     }
 
@@ -65,6 +77,6 @@ public class ColumnInfoBuilder {
         if (type == null) {
             type = String.class;
         }
-        return new ColumnInfo(name, column, type, isPk, isFk, isRelational, isCollection, isEmbedded);
+        return new ColumnInfo(name, column, type, joinTable, isPk, isFk, isCompoundPk, isRelational, isCollection, isEmbedded);
     }
 }

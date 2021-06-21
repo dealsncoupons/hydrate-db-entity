@@ -17,12 +17,12 @@ import java.util.UUID;
 
 import static java.util.Collections.emptyList;
 
-public class TaskMain {
+public class PlayerMain {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(TaskMain.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PlayerMain.class);
 
     public static void main(String[] args) {
-        System.out.println("Tasks up!");
+        System.out.println("Players up!");
         //create repo object
         GenericRepo repo = new GenericRepo();
 

@@ -25,7 +25,7 @@ public class DataTest {
         Task task = new Task();
         assertEquals(task.id().toString(), id1.toString());
         assertEquals(task.name(), "Run a mile");
-        assertEquals(task.completed(), false);
+        assertEquals(task.status(), false);
         assertEquals(task.dateCreated(), now);
     }
 }

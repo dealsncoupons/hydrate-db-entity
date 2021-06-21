@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GenericRepo {
 
@@ -83,6 +84,9 @@ public class GenericRepo {
         //get insertion columns
         List<String> columns = entity.info().getColumns().stream()
                 .filter(field -> !field.isPk && !field.isCollection)
+                .flatMap(field -> field.isEmbedded?
+                        EntityMetadata.entityInfo(field.type).getColumns().stream() :
+                        Stream.of(field))
                 .map(field -> field.column)
                 .collect(Collectors.toList());
 
@@ -420,7 +424,12 @@ public class GenericRepo {
                     }
                 }
             } else if (field.isEmbedded) {
-                //TODO: NOT YET HANDLED
+                EntityInfo embeddedEntityInfo = EntityMetadata.entityInfo(field.type);
+                Entity embeddedEntity = embeddedEntityInfo.newInstance();
+                for(ColumnInfo column : embeddedEntityInfo.getColumns()){
+                    embeddedEntity.set(column.name, rs.getObject(column.column, column.type));
+                }
+                entity.set(field.name, embeddedEntity);
             } else {
                 Object value = rs.getObject(field.column, field.type);
                 if (field.isPk) {

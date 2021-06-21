@@ -10,7 +10,7 @@ public interface ITask {
 
     String name();
 
-    Boolean completed();
+    ITaskStatus status();
 
     LocalDate dateCreated();
 

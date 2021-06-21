@@ -2,6 +2,7 @@ package org.hydrate.apps.support;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EntityQueries {
 
@@ -13,6 +14,9 @@ public class EntityQueries {
         //non-id, non-collection column names
         String columns = info.getColumns().stream()
                 .filter(field -> !field.isPk && !field.isCollection)
+                .flatMap(field -> field.isEmbedded?
+                        EntityMetadata.entityInfo(field.type).getColumns().stream():
+                        Stream.of(field))
                 .map(field -> field.column)
                 .collect(Collectors.joining(","));
         query.append(columns).append(") values (");
@@ -37,6 +41,9 @@ public class EntityQueries {
         //non-id, non-collection column names
         String columns = info.getColumns().stream()
                 .filter(field -> !field.isPk && !field.isCollection)
+                .flatMap(field -> field.isEmbedded?
+                        EntityMetadata.entityInfo(field.type).getColumns().stream():
+                        Stream.of(field))
                 .map(field -> String.format("%s=:%s", field.column, field.name))
                 .collect(Collectors.joining(","));
 

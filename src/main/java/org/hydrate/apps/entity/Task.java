@@ -13,7 +13,7 @@ public class Task implements ITask, Entity {
 
     private UUID id;
     private String name;
-    private Boolean completed;
+    private ITaskStatus status;
     private LocalDate dateCreated;
     private ITask nextTask;
     private ITask dependsOn;
@@ -22,10 +22,10 @@ public class Task implements ITask, Entity {
     public Task() {
     }
 
-    public Task(UUID id, String name, Boolean completed, LocalDate dateCreated, Task nextTask, ITask dependsOn, Collection<ITask> subTasks) {
+    public Task(UUID id, String name, ITaskStatus status, LocalDate dateCreated, Task nextTask, ITask dependsOn, Collection<ITask> subTasks) {
         this.id = id;
         this.name = name;
-        this.completed = completed;
+        this.status = status;
         this.dateCreated = dateCreated;
         this.nextTask = nextTask;
         this.dependsOn = dependsOn;
@@ -43,8 +43,8 @@ public class Task implements ITask, Entity {
     }
 
     @Override
-    public Boolean completed() {
-        return this.completed;
+    public ITaskStatus status() {
+        return this.status;
     }
 
     @Override
@@ -76,8 +76,8 @@ public class Task implements ITask, Entity {
             case "name":
                 this.name = (String) value;
                 break;
-            case "completed":
-                this.completed = (Boolean) value;
+            case "status":
+                this.status = (ITaskStatus) value;
                 break;
             case "dateCreated":
                 this.dateCreated = (LocalDate) value;
@@ -103,8 +103,8 @@ public class Task implements ITask, Entity {
                 return (V) this.id;
             case "name":
                 return (V) this.name;
-            case "completed":
-                return (V) this.completed;
+            case "status":
+                return (V) this.status;
             case "dateCreated":
                 return (V) this.dateCreated;
             case "nextTask":
@@ -133,7 +133,7 @@ public class Task implements ITask, Entity {
         Map<String, Object> values = new HashMap<>();
         values.put("id", this.id);
         values.put("name", this.name);
-        values.put("done", this.completed);
+        values.putAll(((Entity)this.status).extractValues());
         values.put("date_created", this.dateCreated);
         values.put("next_task", this.nextTask != null ? this.nextTask.id() : null);
         values.put("parent_task", this.dependsOn != null ? this.dependsOn.id() : null);

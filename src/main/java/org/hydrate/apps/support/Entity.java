@@ -8,9 +8,9 @@ public interface Entity {
 
     Map<String, Object> extractValues();
 
-    <V> void set(String pk, V pkValue);
+    <V> void set(String field, V value);
 
-    <V> V get(String name);
+    <V> V get(String field);
 
     <ID> ID getKey();
 }
